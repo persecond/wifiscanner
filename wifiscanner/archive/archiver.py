@@ -6,7 +6,7 @@ class Archiver:
     def __init__(self, service_endpoint):
         self.service_endpoint = service_endpoint
 
-    def post_cell(self, cell):
+    def __post_cell(self, cell):
         prettyprint = pprint.PrettyPrinter(indent=4)
 
         data = {}
@@ -29,4 +29,4 @@ class Archiver:
 
     def archive(self, cells):
         for cell in cells:
-            self.post_cell(cell)
+            self.__post_cell(cell)
