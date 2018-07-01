@@ -27,6 +27,6 @@ class Archiver:
         print("response was " + str(r.status_code))
         print(prettyprint.pprint(json.dumps(data)))
 
-    def post_cells(self, cells):
+    def archive(self, cells):
         for cell in cells:
             self.post_cell(cell)

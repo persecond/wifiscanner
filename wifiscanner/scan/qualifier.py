@@ -10,23 +10,20 @@ class Qualifier:
     #for each, try to connect, and see if we actually have free wifi
     #(does it work? does it require browser login?)
     def get_working_cells(self, publicCells):
-        interface = self.interface
-        ping_host = self.ping_host
         workingCells = []
-        
         try:
             for cell in publicCells:
-                scheme = wifi.Scheme.find(interface, "scraper")
+                scheme = wifi.Scheme.find(self.interface, "scraper")
                 if scheme is None:
-                    scheme = wifi.Scheme.for_cell(interface, "scraper", cell)
+                    scheme = wifi.Scheme.for_cell(self.interface, "scraper", cell)
                     scheme.save()
                 print("connecting to " + cell.ssid)
                 try:
                     scheme.activate()
                     print("connected to " + cell.ssid)
                     try :
-                        print("pinging " + ping_host)
-                        urlopen( ping_host )
+                        print("pinging " + self.ping_host)
+                        urlopen(self.ping_host)
                     except HTTPError, e:
                         print("failed to ping")
                     except URLError, e:
@@ -39,6 +36,6 @@ class Qualifier:
         finally:
             #reboot the interface because the wifi module really fucks with it
             print("rebooting wireless interface")
-            subprocess.call("sudo ifdown " + interface + " && sudo ifup " + interface, shell=True)
+            subprocess.call("sudo ifdown " + self.interface + " && sudo ifup " + self.interface, shell=True)
 
         return workingCells
